@@ -94,7 +94,7 @@ class Yatzy
 
   def fours
     sum = 0
-    for at in Array 0..4
+    for at in Array(0..4)
       if (@dice[at] == 4)
         sum += 4
       end
@@ -148,7 +148,7 @@ class Yatzy
     counts[d5-1] += 1
     n = 0
     score = 0
-    for i in Array 0..5
+    for i in Array(0..5)
       if (counts[6-i-1] >= 2)
         n = n+1
         score += (6-i)
@@ -233,14 +233,14 @@ class Yatzy
     tallies[d4-1] += 1
     tallies[d5-1] += 1
 
-    for i in Array 0..5
+    for i in Array(0..5)
       if (tallies[i] == 2)
         _2 = true
         _2_at = i+1
       end
     end
 
-    for i in Array 0..5
+    for i in Array(0..5)
       if (tallies[i] == 3)
         _3 = true
         _3_at = i+1

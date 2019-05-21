@@ -1,5 +1,5 @@
 var assert = require("assert");
-var Yatzy = require("../lib/yatzy");
+var Yatzy = require("./yatzy");
 
 
 describe('Chance', function() {

@@ -83,7 +83,7 @@ export default class Yatzy {
       .countBy()
       .pickBy(count => count >= 2)
       .keys()
-      .map(d => parseInt(d, 10))
+      .map(d => parseInt(d))
       .value();
     return pairs.length === 2 ? _.sum(pairs) * 2 : 0;
   }

@@ -1,11 +1,8 @@
-export class Yatzy {
-  constructor(d1, d2, d3, d4, _5) {
-    this.dice = [];
-    this.dice[0] = d1;
-    this.dice[1] = d2;
-    this.dice[2] = d3;
-    this.dice[3] = d4;
-    this.dice[4] = _5;
+import _ from "lodash";
+
+export default class Yatzy {
+  constructor(...dice) {
+    this.dice = dice;
   }
 
   fours() {
@@ -34,7 +31,7 @@ export class Yatzy {
     return sum;
   }
 
-  export static chance(d1, d2, d3, d4, d5) {
+  static chance(d1, d2, d3, d4, d5) {
     let total = 0;
     total += d1;
     total += d2;
@@ -44,7 +41,7 @@ export class Yatzy {
     return total;
   }
 
-  export static yatzy() {
+  static yatzy() {
     const counts = [0, 0, 0, 0, 0, 0, 0, 0];
     for (var i = 0; i != arguments.length; ++i) {
       const die = arguments[i];
@@ -54,7 +51,7 @@ export class Yatzy {
     return 0;
   }
 
-  export static ones(d1, d2, d3, d4, d5) {
+  static ones(d1, d2, d3, d4, d5) {
     let sum = 0;
     if (d1 == 1) sum++;
     if (d2 == 1) sum++;
@@ -65,7 +62,7 @@ export class Yatzy {
     return sum;
   }
 
-  export static twos(d1, d2, d3, d4, d5) {
+  static twos(d1, d2, d3, d4, d5) {
     let sum = 0;
     if (d1 == 2) sum += 2;
     if (d2 == 2) sum += 2;
@@ -75,7 +72,7 @@ export class Yatzy {
     return sum;
   }
 
-  export static threes(d1, d2, d3, d4, d5) {
+  static threes(d1, d2, d3, d4, d5) {
     let s;
     s = 0;
     if (d1 == 3) s += 3;
@@ -86,7 +83,7 @@ export class Yatzy {
     return s;
   }
 
-  export static score_pair(d1, d2, d3, d4, d5) {
+  static score_pair(d1, d2, d3, d4, d5) {
     const counts = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     counts[d1 - 1]++;
     counts[d2 - 1]++;
@@ -99,7 +96,7 @@ export class Yatzy {
     return 0;
   }
 
-  export static two_pair(d1, d2, d3, d4, d5) {
+  static two_pair(d1, d2, d3, d4, d5) {
     const counts = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     counts[d1 - 1]++;
     counts[d2 - 1]++;
@@ -117,7 +114,7 @@ export class Yatzy {
     return 0;
   }
 
-  export static four_of_a_kind(_1, _2, d3, d4, d5) {
+  static four_of_a_kind(_1, _2, d3, d4, d5) {
     let tallies;
     tallies = [0, 0, 0, 0, 0, 0, 0, 0];
     tallies[_1 - 1]++;
@@ -129,7 +126,7 @@ export class Yatzy {
     return 0;
   }
 
-  export static three_of_a_kind(d1, d2, d3, d4, d5) {
+  static three_of_a_kind(d1, d2, d3, d4, d5) {
     let t;
     t = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     t[d1 - 1]++;
@@ -141,7 +138,7 @@ export class Yatzy {
     return 0;
   }
 
-  export static smallStraight(d1, d2, d3, d4, d5) {
+  static smallStraight(d1, d2, d3, d4, d5) {
     let tallies;
     tallies = [0, 0, 0, 0, 0, 0, 0];
     tallies[d1 - 1] += 1;
@@ -160,7 +157,7 @@ export class Yatzy {
     return 0;
   }
 
-  export static largeStraight(d1, d2, d3, d4, d5) {
+  static largeStraight(d1, d2, d3, d4, d5) {
     let tallies;
     tallies = [0, 0, 0, 0, 0, 0, 0, 0];
     tallies[d1 - 1] += 1;
@@ -179,7 +176,7 @@ export class Yatzy {
     return 0;
   }
 
-  export static fullHouse(d1, d2, d3, d4, d5) {
+  static fullHouse(d1, d2, d3, d4, d5) {
     let tallies;
     let _2 = false;
     let i;

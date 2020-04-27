@@ -6,81 +6,35 @@ export default class Yatzy {
   }
 
   fours() {
-    let at = 0;
-    let sum;
-    sum = 0;
-    for (at = 0; at != 5; at++) {
-      if (this.dice[at] == 4) {
-        sum += 4;
-      }
-    }
-    return sum;
+    return this.dice.filter(d => d === 4).length * 4;
   }
 
   fives() {
-    let s = 0;
-    let i;
-    for (i = 0; i < this.dice.length; i++) if (this.dice[i] == 5) s += 5;
-    return s;
+    return this.dice.filter(d => d === 5).length * 5;
   }
 
   sixes() {
-    let sum = 0;
-    for (let at = 0; at < this.dice.length; at++)
-      if (this.dice[at] == 6) sum += 6;
-    return sum;
+    return this.dice.filter(d => d === 6).length * 6;
   }
 
-  static chance(d1, d2, d3, d4, d5) {
-    let total = 0;
-    total += d1;
-    total += d2;
-    total += d3;
-    total += d4;
-    total += d5;
-    return total;
+  static chance(...dice) {
+    return _.sum(dice);
   }
 
-  static yatzy() {
-    const counts = [0, 0, 0, 0, 0, 0, 0, 0];
-    for (var i = 0; i != arguments.length; ++i) {
-      const die = arguments[i];
-      counts[die - 1]++;
-    }
-    for (i = 0; i != 6; i++) if (counts[i] == 5) return 50;
-    return 0;
+  static yatzy(...dice) {
+    return _.uniq(dice).length === 1 ? 50 : 0;
   }
 
-  static ones(d1, d2, d3, d4, d5) {
-    let sum = 0;
-    if (d1 == 1) sum++;
-    if (d2 == 1) sum++;
-    if (d3 == 1) sum++;
-    if (d4 == 1) sum++;
-    if (d5 == 1) sum++;
-
-    return sum;
+  static ones(...dice) {
+    return dice.filter(d => d === 1).length * 1;
   }
 
-  static twos(d1, d2, d3, d4, d5) {
-    let sum = 0;
-    if (d1 == 2) sum += 2;
-    if (d2 == 2) sum += 2;
-    if (d3 == 2) sum += 2;
-    if (d4 == 2) sum += 2;
-    if (d5 == 2) sum += 2;
-    return sum;
+  static twos(...dice) {
+    return dice.filter(d => d === 2).length * 2;
   }
 
-  static threes(d1, d2, d3, d4, d5) {
-    let s;
-    s = 0;
-    if (d1 == 3) s += 3;
-    if (d2 == 3) s += 3;
-    if (d3 == 3) s += 3;
-    if (d4 == 3) s += 3;
-    if (d5 == 3) s += 3;
-    return s;
+  static threes(...dice) {
+    return dice.filter(d => d === 3).length * 3;
   }
 
   static score_pair(d1, d2, d3, d4, d5) {

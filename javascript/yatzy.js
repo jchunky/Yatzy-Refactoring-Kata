@@ -64,11 +64,19 @@ export default class Yatzy {
   }
 
   static smallStraight(...dice) {
-    return _.isEqual(_.orderBy(dice), [1, 2, 3, 4, 5]) ? _.sum(dice) : 0;
+    return _(dice)
+      .orderBy()
+      .isEqual([1, 2, 3, 4, 5])
+      ? _.sum(dice)
+      : 0;
   }
 
   static largeStraight(...dice) {
-    return _.isEqual(_.orderBy(dice), [2, 3, 4, 5, 6]) ? _.sum(dice) : 0;
+    return _(dice)
+      .orderBy()
+      .isEqual([2, 3, 4, 5, 6])
+      ? _.sum(dice)
+      : 0;
   }
 
   static fullHouse(...dice) {

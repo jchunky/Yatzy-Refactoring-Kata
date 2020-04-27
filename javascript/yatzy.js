@@ -17,14 +17,6 @@ export default class Yatzy {
     return (_.countBy(this.dice)[6] || 0) * 6;
   }
 
-  static chance(...dice) {
-    return _.sum(dice);
-  }
-
-  static yatzy(...dice) {
-    return _.uniq(dice).length === 1 ? 50 : 0;
-  }
-
   static ones(...dice) {
     return (_.countBy(dice)[1] || 0) * 1;
   }
@@ -37,55 +29,71 @@ export default class Yatzy {
     return (_.countBy(dice)[3] || 0) * 3;
   }
 
+  static chance(...dice) {
+    return _.sum(dice);
+  }
+
+  static yatzy(...dice) {
+    return _.uniq(dice).length === 1 ? 50 : 0;
+  }
+
   static score_pair(...dice) {
-    return (
-      (_.max(_.keys(_.pickBy(_.countBy(dice), count => count >= 2))) || 0) * 2
-    );
-  }
-
-  static two_pair(...dice) {
-    const pairs = _.map(
-      _.keys(_.pickBy(_.countBy(dice), count => count >= 2)),
-      d => parseInt(d, 10)
-    );
-    return pairs.length === 2 ? _.sum(pairs) * 2 : 0;
-  }
-
-  static four_of_a_kind(...dice) {
-    return (
-      (_.max(_.keys(_.pickBy(_.countBy(dice), count => count >= 4))) || 0) * 4
-    );
+    const pair = _(dice)
+      .countBy()
+      .pickBy(count => count >= 2)
+      .keys()
+      .max();
+    return (pair || 0) * 2;
   }
 
   static three_of_a_kind(...dice) {
-    return (
-      (_.max(_.keys(_.pickBy(_.countBy(dice), count => count >= 3))) || 0) * 3
-    );
+    const pair = _(dice)
+      .countBy()
+      .pickBy(count => count >= 3)
+      .keys()
+      .max();
+    return (pair || 0) * 3;
+  }
+
+  static four_of_a_kind(...dice) {
+    const pair = _(dice)
+      .countBy()
+      .pickBy(count => count >= 4)
+      .keys()
+      .max();
+    return (pair || 0) * 4;
   }
 
   static smallStraight(...dice) {
-    return _(dice)
+    const match = _(dice)
       .orderBy()
-      .isEqual([1, 2, 3, 4, 5])
-      ? _.sum(dice)
-      : 0;
+      .isEqual([1, 2, 3, 4, 5]);
+    return match ? _.sum(dice) : 0;
   }
 
   static largeStraight(...dice) {
-    return _(dice)
+    const match = _(dice)
       .orderBy()
-      .isEqual([2, 3, 4, 5, 6])
-      ? _.sum(dice)
-      : 0;
+      .isEqual([2, 3, 4, 5, 6]);
+    return match ? _.sum(dice) : 0;
+  }
+
+  static two_pair(...dice) {
+    const pairs = _(dice)
+      .countBy()
+      .pickBy(count => count >= 2)
+      .keys()
+      .map(d => parseInt(d, 10))
+      .value();
+    return pairs.length === 2 ? _.sum(pairs) * 2 : 0;
   }
 
   static fullHouse(...dice) {
-    return _(dice)
+    const match = _(dice)
       .countBy()
       .values()
       .orderBy()
-      .isEqual([2, 3])
-      ? _.sum(dice)
-      : 0;
+      .isEqual([2, 3]);
+    return match ? _.sum(dice) : 0;
   }
 }

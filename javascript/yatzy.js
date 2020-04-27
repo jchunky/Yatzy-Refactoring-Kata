@@ -6,15 +6,15 @@ export default class Yatzy {
   }
 
   fours() {
-    return this.dice.filter(d => d === 4).length * 4;
+    return (_.countBy(this.dice)[4] || 0) * 4;
   }
 
   fives() {
-    return this.dice.filter(d => d === 5).length * 5;
+    return (_.countBy(this.dice)[5] || 0) * 5;
   }
 
   sixes() {
-    return this.dice.filter(d => d === 6).length * 6;
+    return (_.countBy(this.dice)[6] || 0) * 6;
   }
 
   static chance(...dice) {
@@ -26,15 +26,15 @@ export default class Yatzy {
   }
 
   static ones(...dice) {
-    return dice.filter(d => d === 1).length * 1;
+    return (_.countBy(dice)[1] || 0) * 1;
   }
 
   static twos(...dice) {
-    return dice.filter(d => d === 2).length * 2;
+    return (_.countBy(dice)[2] || 0) * 2;
   }
 
   static threes(...dice) {
-    return dice.filter(d => d === 3).length * 3;
+    return (_.countBy(dice)[3] || 0) * 3;
   }
 
   static score_pair(...dice) {

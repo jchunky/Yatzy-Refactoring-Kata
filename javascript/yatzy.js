@@ -99,16 +99,7 @@ export default class Yatzy {
   }
 
   static fullHouse(...dice) {
-    return _.isEqual(
-      _.orderBy(
-        _.uniq(dice).map(d1 => {
-          return dice.filter(d2 => {
-            return d1 === d2;
-          }).length;
-        })
-      ),
-      [2, 3]
-    )
+    return _.isEqual(_.orderBy(_.values(_.countBy(dice))), [2, 3])
       ? _.sum(dice)
       : 0;
   }

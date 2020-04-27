@@ -55,9 +55,8 @@ export default class Yatzy {
 
   static scoreMultiple(dice, n) {
     const match = _(dice)
-      .countBy()
-      .pickBy(count => count >= n)
-      .keys()
+      .uniq()
+      .filter(d => _.countBy(dice)[d] >= n)
       .max();
     return (match || 0) * n;
   }
@@ -79,18 +78,16 @@ export default class Yatzy {
 
   static two_pair(...dice) {
     const pairs = _(dice)
-      .countBy()
-      .pickBy(count => count >= 2)
-      .keys()
-      .map(d => parseInt(d))
+      .uniq()
+      .filter(d => _.countBy(dice)[d] >= 2)
       .value();
     return pairs.length === 2 ? _.sum(pairs) * 2 : 0;
   }
 
   static fullHouse(...dice) {
     const match = _(dice)
-      .countBy()
-      .values()
+      .uniq()
+      .map(d => _.countBy(dice)[d])
       .orderBy()
       .isEqual([2, 3]);
     return match ? _.sum(dice) : 0;

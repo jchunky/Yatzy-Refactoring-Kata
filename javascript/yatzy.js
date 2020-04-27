@@ -6,27 +6,31 @@ export default class Yatzy {
   }
 
   fours() {
-    return (_.countBy(this.dice)[4] || 0) * 4;
+    return Yatzy.scoreSingles(this.dice, 4);
   }
 
   fives() {
-    return (_.countBy(this.dice)[5] || 0) * 5;
+    return Yatzy.scoreSingles(this.dice, 5);
   }
 
   sixes() {
-    return (_.countBy(this.dice)[6] || 0) * 6;
+    return Yatzy.scoreSingles(this.dice, 6);
   }
 
   static ones(...dice) {
-    return (_.countBy(dice)[1] || 0) * 1;
+    return this.scoreSingles(dice, 1);
   }
 
   static twos(...dice) {
-    return (_.countBy(dice)[2] || 0) * 2;
+    return this.scoreSingles(dice, 2);
   }
 
   static threes(...dice) {
-    return (_.countBy(dice)[3] || 0) * 3;
+    return this.scoreSingles(dice, 3);
+  }
+
+  static scoreSingles(dice, n) {
+    return (_.countBy(dice)[n] || 0) * n;
   }
 
   static chance(...dice) {
@@ -38,43 +42,38 @@ export default class Yatzy {
   }
 
   static score_pair(...dice) {
-    const pair = _(dice)
-      .countBy()
-      .pickBy(count => count >= 2)
-      .keys()
-      .max();
-    return (pair || 0) * 2;
+    return this.scoreMultiple(dice, 2);
   }
 
   static three_of_a_kind(...dice) {
-    const pair = _(dice)
-      .countBy()
-      .pickBy(count => count >= 3)
-      .keys()
-      .max();
-    return (pair || 0) * 3;
+    return this.scoreMultiple(dice, 3);
   }
 
   static four_of_a_kind(...dice) {
-    const pair = _(dice)
+    return this.scoreMultiple(dice, 4);
+  }
+
+  static scoreMultiple(dice, n) {
+    const match = _(dice)
       .countBy()
-      .pickBy(count => count >= 4)
+      .pickBy(count => count >= n)
       .keys()
       .max();
-    return (pair || 0) * 4;
+    return (match || 0) * n;
   }
 
   static smallStraight(...dice) {
-    const match = _(dice)
-      .orderBy()
-      .isEqual([1, 2, 3, 4, 5]);
-    return match ? _.sum(dice) : 0;
+    return this.scoreStraight(dice, [1, 2, 3, 4, 5]);
   }
 
   static largeStraight(...dice) {
+    return this.scoreStraight(dice, [2, 3, 4, 5, 6]);
+  }
+
+  static scoreStraight(dice, straight) {
     const match = _(dice)
       .orderBy()
-      .isEqual([2, 3, 4, 5, 6]);
+      .isEqual(straight);
     return match ? _.sum(dice) : 0;
   }
 

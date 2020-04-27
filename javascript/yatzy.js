@@ -38,56 +38,29 @@ export default class Yatzy {
   }
 
   static score_pair(...dice) {
-    const pair = _.max(
-      _.uniq(dice).filter(d1 => {
-        return (
-          dice.filter(d2 => {
-            return d1 === d2;
-          }).length >= 2
-        );
-      })
+    return (
+      (_.max(_.keys(_.pickBy(_.countBy(dice), count => count >= 2))) || 0) * 2
     );
-    return pair ? pair * 2 : 0;
   }
 
   static two_pair(...dice) {
-    const pairs = _.uniq(dice).filter(d1 => {
-      return (
-        dice.filter(d2 => {
-          return d1 === d2;
-        }).length >= 2
-      );
-    });
-    if (pairs.length === 2) {
-      return _.sum(pairs) * 2;
-    }
-    return 0;
+    const pairs = _.map(
+      _.keys(_.pickBy(_.countBy(dice), count => count >= 2)),
+      d => parseInt(d, 10)
+    );
+    return pairs.length === 2 ? _.sum(pairs) * 2 : 0;
   }
 
   static four_of_a_kind(...dice) {
-    const pair = _.max(
-      _.uniq(dice).filter(d1 => {
-        return (
-          dice.filter(d2 => {
-            return d1 === d2;
-          }).length >= 4
-        );
-      })
+    return (
+      (_.max(_.keys(_.pickBy(_.countBy(dice), count => count >= 4))) || 0) * 4
     );
-    return pair ? pair * 4 : 0;
   }
 
   static three_of_a_kind(...dice) {
-    const pair = _.max(
-      _.uniq(dice).filter(d1 => {
-        return (
-          dice.filter(d2 => {
-            return d1 === d2;
-          }).length >= 3
-        );
-      })
+    return (
+      (_.max(_.keys(_.pickBy(_.countBy(dice), count => count >= 3))) || 0) * 3
     );
-    return pair ? pair * 3 : 0;
   }
 
   static smallStraight(...dice) {

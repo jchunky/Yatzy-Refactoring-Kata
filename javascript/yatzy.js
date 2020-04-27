@@ -72,7 +72,11 @@ export default class Yatzy {
   }
 
   static fullHouse(...dice) {
-    return _.isEqual(_.orderBy(_.values(_.countBy(dice))), [2, 3])
+    return _(dice)
+      .countBy()
+      .values()
+      .orderBy()
+      .isEqual([2, 3])
       ? _.sum(dice)
       : 0;
   }

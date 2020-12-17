@@ -37,41 +37,59 @@ export default class Yatzy {
     return _.uniq(dice).length === 1 ? 50 : 0;
   }
 
-  static score_pair(...dice) {
-    const pairs = _.filter(_.uniq(dice), (d) => this.count(dice, d) >= 2);
-    return pairs.length >= 1 ? _.max(pairs) * 2 : 0;
-  }
-
-  static three_of_a_kind(...dice) {
-    const pairs = _.filter(_.uniq(dice), (d) => this.count(dice, d) >= 3);
-    return pairs.length >= 1 ? _.max(pairs) * 3 : 0;
-  }
-
-  static four_of_a_kind(...dice) {
-    const pairs = _.filter(_.uniq(dice), (d) => this.count(dice, d) >= 4);
-    return pairs.length >= 1 ? _.max(pairs) * 4 : 0;
-  }
-
-  static two_pair(...dice) {
-    const pairs = _.filter(_.uniq(dice), (d) => this.count(dice, d) >= 2);
-    return pairs.length === 2 ? _.sum(pairs) * 2 : 0;
-  }
-
   static smallStraight(...dice) {
-    return _.isEqual(_.sortBy(dice), [1, 2, 3, 4, 5]) ? _.sum(dice) : 0;
+    const match = _.chain(dice).sortBy().isEqual([1, 2, 3, 4, 5]).value();
+    return match ? _.sum(dice) : 0;
   }
 
   static largeStraight(...dice) {
-    return _.isEqual(_.sortBy(dice), [2, 3, 4, 5, 6]) ? _.sum(dice) : 0;
+    const match = _.chain(dice).sortBy().isEqual([2, 3, 4, 5, 6]).value();
+    return match ? _.sum(dice) : 0;
+  }
+
+  static score_pair(...dice) {
+    const match = _.chain(dice)
+      .uniq()
+      .filter((d) => this.count(dice, d) >= 2)
+      .max()
+      .value();
+    return (match || 0) * 2;
+  }
+
+  static three_of_a_kind(...dice) {
+    const match = _.chain(dice)
+      .uniq()
+      .filter((d) => this.count(dice, d) >= 3)
+      .max()
+      .value();
+    return (match || 0) * 3;
+  }
+
+  static four_of_a_kind(...dice) {
+    const match = _.chain(dice)
+      .uniq()
+      .filter((d) => this.count(dice, d) >= 4)
+      .max()
+      .value();
+    return (match || 0) * 4;
+  }
+
+  static two_pair(...dice) {
+    const pairs = _.chain(dice)
+      .uniq()
+      .filter((d) => this.count(dice, d) >= 2)
+      .value();
+    return pairs.length === 2 ? _.sum(pairs) * 2 : 0;
   }
 
   static fullHouse(...dice) {
-    return _.isEqual(
-      _.sortBy(_.map(_.uniq(dice), (d) => this.count(dice, d))),
-      [2, 3]
-    )
-      ? _.sum(dice)
-      : 0;
+    const match = _.chain(dice)
+      .uniq()
+      .map((d) => this.count(dice, d))
+      .sortBy()
+      .isEqual([2, 3])
+      .value();
+    return match ? _.sum(dice) : 0;
   }
 
   static count(dice, value) {

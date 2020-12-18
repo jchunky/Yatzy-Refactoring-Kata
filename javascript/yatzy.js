@@ -34,44 +34,61 @@ export default class Yatzy {
   }
 
   static yatzy(...dice) {
-    return _.uniq(dice).length === 1 ? 50 : 0;
+    return _.chain(dice)
+      .uniq()
+      .size()
+      .isEqual(1)
+      .toInteger()
+      .multiply(50)
+      .value();
   }
 
   static smallStraight(...dice) {
-    const match = _.chain(dice).sortBy().isEqual([1, 2, 3, 4, 5]).value();
-    return match ? _.sum(dice) : 0;
+    return _.chain(dice)
+      .sortBy()
+      .isEqual([1, 2, 3, 4, 5])
+      .toInteger()
+      .multiply(_.sum(dice))
+      .value();
   }
 
   static largeStraight(...dice) {
-    const match = _.chain(dice).sortBy().isEqual([2, 3, 4, 5, 6]).value();
-    return match ? _.sum(dice) : 0;
+    return _.chain(dice)
+      .sortBy()
+      .isEqual([2, 3, 4, 5, 6])
+      .toInteger()
+      .multiply(_.sum(dice))
+      .value();
   }
 
   static score_pair(...dice) {
-    const match = _.chain(dice)
+    return _.chain(dice)
       .uniq()
       .filter((d) => this.count(dice, d) >= 2)
       .max()
+      .toInteger()
+      .multiply(2)
       .value();
-    return (match || 0) * 2;
   }
 
   static three_of_a_kind(...dice) {
-    const match = _.chain(dice)
+    return _.chain(dice)
       .uniq()
       .filter((d) => this.count(dice, d) >= 3)
       .max()
+      .toInteger()
+      .multiply(3)
       .value();
-    return (match || 0) * 3;
   }
 
   static four_of_a_kind(...dice) {
-    const match = _.chain(dice)
+    return _.chain(dice)
       .uniq()
       .filter((d) => this.count(dice, d) >= 4)
       .max()
+      .toInteger()
+      .multiply(4)
       .value();
-    return (match || 0) * 4;
   }
 
   static two_pair(...dice) {
@@ -83,13 +100,14 @@ export default class Yatzy {
   }
 
   static fullHouse(...dice) {
-    const match = _.chain(dice)
+    return _.chain(dice)
       .uniq()
       .map((d) => this.count(dice, d))
       .sortBy()
       .isEqual([2, 3])
+      .toInteger()
+      .multiply(_.sum(dice))
       .value();
-    return match ? _.sum(dice) : 0;
   }
 
   static count(dice, value) {

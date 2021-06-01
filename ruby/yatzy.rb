@@ -3,12 +3,8 @@ class Yatzy < Struct.new(:dice)
     new(*dice).send(method_name)
   end
 
-  def self.yatzy(dice)
-    new(*dice).yatzy
-  end
-
   def initialize(*dice)
-    super(dice)
+    super(dice.flatten)
   end
 
   def chance
@@ -69,7 +65,7 @@ class Yatzy < Struct.new(:dice)
   end
 
   def fullHouse
-    dice.uniq.map { |d| dice.count(d) }.sort == [2, 3] ? dice.sum : 0
+    dice.tally.values.sort == [2, 3] ? dice.sum : 0
   end
 
   private

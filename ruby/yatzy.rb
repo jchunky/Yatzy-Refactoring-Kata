@@ -10,27 +10,27 @@ class Yatzy
   end
 
   def self.ones(*dice)
-    dice.count(1) * 1
+    count_and_multiply(dice, 1)
   end
 
   def self.twos(*dice)
-    dice.count(2) * 2
+    count_and_multiply(dice, 2)
   end
 
   def self.threes(*dice)
-    dice.count(3) * 3
+    count_and_multiply(dice, 3)
   end
 
   def self.score_pair(*dice)
-    dice.uniq.select { |d| dice.count(d) >= 2 }.max.to_i * 2
+    find_of_a_kind(dice, 2) * 2
   end
 
   def self.three_of_a_kind(*dice)
-    dice.uniq.select { |d| dice.count(d) >= 3 }.max.to_i * 3
+    find_of_a_kind(dice, 3) * 3
   end
 
   def self.four_of_a_kind(*dice)
-    dice.uniq.select { |d| dice.count(d) >= 4 }.max.to_i * 4
+    find_of_a_kind(dice, 4) * 4
   end
 
   def self.two_pair(*dice)
@@ -50,19 +50,27 @@ class Yatzy
     dice.uniq.map { |d| dice.count(d) }.sort == [2, 3] ? dice.sum : 0
   end
 
+  def self.count_and_multiply(dice, number)
+    dice.count(number) * number
+  end
+
+  def self.find_of_a_kind(dice, count)
+    dice.uniq.select { |d| dice.count(d) >= count }.max.to_i
+  end
+
   def initialize(*dice)
     @dice = dice
   end
 
   def fours
-    dice.count(4) * 4
+    self.class.count_and_multiply(dice, 4)
   end
 
   def fives
-    dice.count(5) * 5
+    self.class.count_and_multiply(dice, 5)
   end
 
   def sixes
-    dice.count(6) * 6
+    self.class.count_and_multiply(dice, 6)
   end
 end

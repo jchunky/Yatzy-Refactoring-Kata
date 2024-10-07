@@ -10,39 +10,32 @@ class Yatzy
   end
 
   def self.score_pair(*dice)
-    counts = dice.tally
-    counts.select { |_, count| count >= 2 }.keys.max.to_i * 2
+    find_x_of_a_kind(dice, x: 2) * 2
   end
 
   def self.three_of_a_kind(*dice)
-    counts = dice.tally
-    counts.find { |_key, count| count >= 3 }&.first.to_i * 3
+    find_x_of_a_kind(dice, x: 3) * 3
   end
 
   def self.four_of_a_kind(*dice)
-    counts = dice.tally
-    counts.find { |_key, count| count >= 4 }&.first.to_i * 4
+    find_x_of_a_kind(dice, x: 4) * 4
   end
 
   def self.two_pair(*dice)
-    counts = dice.tally
-    pairs = counts.select { |_, count| count >= 2 }.keys
+    pairs = dice.tally.select { |_, count| count >= 2 }.keys
     pairs.size == 2 ? pairs.sum * 2 : 0
   end
 
   def self.smallStraight(*dice)
-    dice.sort == [1, 2, 3, 4, 5] ? 15 : 0
+    dice.sort == (1..5).to_a ? dice.sum : 0
   end
 
   def self.largeStraight(*dice)
-    dice.sort == [2, 3, 4, 5, 6] ? 20 : 0
+    dice.sort == (2..6).to_a ? dice.sum : 0
   end
 
   def self.fullHouse(*dice)
-    counts = dice.tally
-    pair = counts.find { |_, count| count == 2 }&.first
-    triplet = counts.find { |_, count| count == 3 }&.first
-    pair && triplet ? (pair * 2) + (triplet * 3) : 0
+    dice.tally.values.sort == [2, 3] ? dice.sum : 0
   end
 
   def self.ones(*dice)
@@ -55,6 +48,10 @@ class Yatzy
 
   def self.threes(*dice)
     dice.count(3) * 3
+  end
+
+  def self.find_x_of_a_kind(dice, x:)
+    dice.tally.select { |_, count| count >= x }.keys.max.to_i
   end
 
   def initialize(*dice)

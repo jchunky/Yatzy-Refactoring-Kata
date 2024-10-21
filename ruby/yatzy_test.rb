@@ -4,14 +4,14 @@ require "test/unit"
 class YatzyTest < Test::Unit::TestCase
   def test_chance_scores_sum_of_all_dice
     expected = 15
-    actual = Yatzy.chance(2, 3, 4, 5, 1)
+    actual   = Yatzy.chance(2, 3, 4, 5, 1)
     assert expected == actual
     assert Yatzy.chance(3, 3, 4, 5, 1) == 16
   end
 
   def test_yatzy_scores_50
     expected = 50
-    actual = Yatzy.yatzy([4, 4, 4, 4, 4])
+    actual   = Yatzy.yatzy([4, 4, 4, 4, 4])
     assert expected == actual
     assert Yatzy.yatzy([6, 6, 6, 6, 6]) == 50
     assert Yatzy.yatzy([6, 6, 6, 6, 3]) == 0

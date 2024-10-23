@@ -26,7 +26,7 @@ class Yatzy
     @dice = dice
   end
 
-  def fours = dice.count(4) * 4
-  def fives = dice.count(5) * 5
-  def sixes = dice.count(6) * 6
+  def fours                       = dice.count(4) * 4
+  def fives                       = dice.count(5) * 5
+  def sixes                       = dice.count(6) * 6
 end
